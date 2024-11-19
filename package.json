@@ -11,6 +11,10 @@
     "dotenv": "^16.4.5"
   },
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
