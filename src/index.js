@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { App } = require("@slack/bolt");
+const data = require("./data");
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
@@ -11,36 +12,23 @@ const app = new App({
 (async () => {
   app.action("drop_down", async (par) => {
     par.ack();
-    console.debug(par.body.actions[0].selected_option, "#dropdown");
     const chosenOne = par.body.actions[0].selected_option.value;
-    switch (chosenOne) {
-      case "item_1":
-        par.respond({
-          response_type: "ephemeral",
-          text: "Item 1 prices",
-        });
-        break;
-      case "item_2":
-        par.respond({
-          response_type: "ephemeral",
-          text: "Item 2 prices",
-        });
-        break;
-      case "item_3":
-        par.respond({
-          response_type: "ephemeral",
-          text: "Item 3 prices",
-        });
-        break;
-      default:
-        par.respond({
-          response_type: "ephemeral",
-          text: "Invalid option",
-        });
-        break;
+    const item = data.find((item) => item.item === chosenOne);
+    if (item) {
+      par.respond({
+        response_type: "ephemeral",
+        text: `The estimated customs for ${item.emoji ?? ""}${item.item} is \`${
+          item.estimated_customs
+        }\``,
+      });
+    } else {
+      par.respond({
+        response_type: "ephemeral",
+        text: "Invalid option",
+      });
     }
   });
-  app.command("/customs", async ({ ack, body, client, respond }) => {
+  app.command("/customs", async ({ ack, body, respond }) => {
     ack();
     try {
       // prompt a select menu for the user to choose
@@ -62,29 +50,13 @@ const app = new App({
                 type: "plain_text",
                 text: "Select an item",
               },
-              options: [
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "Item 1",
-                  },
-                  value: "item_1",
+              options: data.map((item) => ({
+                text: {
+                  type: "plain_text",
+                  text: `${item.emoji ?? ""}${item.item}`,
                 },
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "Item 2",
-                  },
-                  value: "item_2",
-                },
-                {
-                  text: {
-                    type: "plain_text",
-                    text: "Item 3",
-                  },
-                  value: "item_3",
-                },
-              ],
+                value: item.item,
+              })),
               action_id: "drop_down",
             },
           },
