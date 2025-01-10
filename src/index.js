@@ -28,7 +28,7 @@ const app = new App({
       });
     }
   });
-  app.command("/customs", async ({ ack, body, respond }) => {
+  app.command("/indcustoms", async ({ ack, body, respond }) => {
     ack();
     try {
       // prompt a select menu for the user to choose
@@ -72,6 +72,6 @@ const app = new App({
   console.log(
     `⚡️ Bolt app is running on ${
       process.env.PORT || process.env.SERVER_PORT || 3000
-    }!`,
+    }!`
   );
 })();
