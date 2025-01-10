@@ -4,7 +4,7 @@
 
 Handles customs info for #indians-customs in the hackclub slack workspace
 
-example: 
+example:
 ![res](./assets/result.png)
 ![select menu](./assets/select_menu.png)
 ![after select menu](./assets/after_select.png)
