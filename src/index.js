@@ -72,6 +72,6 @@ const app = new App({
   console.log(
     `⚡️ Bolt app is running on ${
       process.env.PORT || process.env.SERVER_PORT || 3000
-    }!`
+    }!`,
   );
 })();
