@@ -67,7 +67,11 @@ const app = new App({
     }
   });
   // Start the app
-  await app.start(process.env.PORT || 3000);
+  await app.start(process.env.PORT || process.env.SERVER_PORT || 3000);
 
-  console.log("⚡️ Bolt app is running!");
+  console.log(
+    `⚡️ Bolt app is running on ${
+      process.env.PORT || process.env.SERVER_PORT || 3000
+    }!`
+  );
 })();
